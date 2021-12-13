@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 05 2021 г., 20:47
+-- Время создания: Дек 13 2021 г., 00:20
 -- Версия сервера: 5.7.33-log
 -- Версия PHP: 7.3.29
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `messages` (
   `id` int(11) UNSIGNED NOT NULL COMMENT 'id сообщения',
+  `User` int(11) UNSIGNED NOT NULL COMMENT 'id пользователя',
   `Message` varchar(600) NOT NULL COMMENT 'текст сообщения',
   `Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'время сообщения'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -37,41 +38,16 @@ CREATE TABLE `messages` (
 -- Дамп данных таблицы `messages`
 --
 
-INSERT INTO `messages` (`id`, `Message`, `Date`) VALUES
-(1, 'Первое сообщение', '2021-09-14 11:18:57'),
-(2, 'Второе сообщение', '2021-09-19 05:22:34'),
-(3, 'Я обычно как напьюсь,<br>Головой о стенку бьюсь.<br>То ли вредно мне спиртное,<br>То ли просто возрастное.', '2021-10-01 15:47:18'),
-(4, 'Любой дурак сможет написать код, который поймет машина. Хорошие программисты пишут код, который сможет понять человек.<br>Martin Fowler', '2021-10-09 11:32:34'),
-(5, 'Чему нас может научить гиппопотам? Что невозможно избавиться от лишнего веса, благодаря прогулкам и растительной диете.', '2021-10-10 18:20:33'),
-(6, ';)', '2021-10-14 00:44:48'),
-(7, 'До скорой встречи!', '2021-10-14 05:20:28'),
-(8, 'ДОБАВЛЕННОЕ СООЩЕНИЕ!', '2021-10-29 19:04:42'),
-(9, 'Новое', '2021-12-03 02:17:42');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `usermessage`
---
-
-CREATE TABLE `usermessage` (
-  `id` int(11) UNSIGNED NOT NULL COMMENT 'для удобства редактирования',
-  `id_mess` int(11) UNSIGNED NOT NULL,
-  `id_user` int(11) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `usermessage`
---
-
-INSERT INTO `usermessage` (`id`, `id_mess`, `id_user`) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 6),
-(4, 4, 2),
-(5, 5, 7),
-(6, 6, 4),
-(7, 7, 5);
+INSERT INTO `messages` (`id`, `User`, `Message`, `Date`) VALUES
+(1, 1, 'Первое сообщение', '2021-02-11 04:17:32'),
+(2, 2, 'Второе сообщение', '2021-09-19 05:22:34'),
+(3, 6, 'Я обычно как напьюсь,\r\nГоловой о стенку бьюсь.\r\nТо ли вредно мне спиртное,\r\nТо ли просто возрастное.', '2021-10-01 15:47:18'),
+(4, 2, 'Любой дурак сможет написать код, который поймет машина. Хорошие программисты пишут код, который сможет понять человек.\r\nMartin Fowler', '2021-10-09 11:32:34'),
+(5, 7, 'Чему нас может научить гиппопотам? Что невозможно избавиться от лишнего веса, благодаря прогулкам и растительной диете.', '2021-10-10 18:20:33'),
+(6, 4, ';)', '2021-10-14 00:44:48'),
+(7, 5, 'До скорой встречи!', '2021-10-14 05:20:28'),
+(8, 3, 'ДОБАВЛЕННОЕ СООЩЕНИЕ!', '2021-10-29 19:04:42'),
+(9, 9, 'Новое', '2021-12-03 02:17:42');
 
 -- --------------------------------------------------------
 
@@ -84,24 +60,24 @@ CREATE TABLE `users` (
   `Name` varchar(60) NOT NULL DEFAULT 'No name' COMMENT 'имя пользователя',
   `SurName` varchar(60) NOT NULL DEFAULT 'No surname' COMMENT 'фамилия пользователя',
   `Login` varchar(60) NOT NULL COMMENT 'логин',
-  `Password_hash` varchar(60) NOT NULL COMMENT 'хэш пароля'
+  `Password` varchar(60) NOT NULL COMMENT 'хэш пароля'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `Name`, `SurName`, `Login`, `Password_hash`) VALUES
-(1, 'Иван', 'Иванов', 'login1', '96e79218965eb72c92a549dd5a330112'),
-(2, 'Александр', 'Александров', 'login2', 'e3ceb5881a0a1fdaad01296d7554868d'),
-(3, 'Виталий', 'Буров', 'login3', '1a100d2c0dab19c4430e7d73762b3423'),
-(4, 'Валентина', 'Андреева', 'login4', '73882ab1fa529d7273da0db6b49cc4f3'),
-(5, 'Акакий', 'Фролов', 'login5', '5b1b68a9abf4d2cd155c81a9225fd158'),
-(6, 'Ольга', 'Морковкина', 'login6', 'f379eaf3c831b04de153469d1bec345e'),
-(7, 'Анна', 'Ярко', 'login7', 'f63f4fbc9f8c85d409f2f59f2b9e12d5'),
-(8, 'Пётр', 'Некрасов', 'login8', '21218cca77804d2ba1922c33e0151105'),
-(9, 'Тимофей', 'Кнутский', 'login9', '52c69e3a57331081823331c4e69d3f2e'),
-(10, 'Дарья', 'Жилина', 'login10', '6d071901727aec1ba6d8e2497ef5b709');
+INSERT INTO `users` (`id`, `Name`, `SurName`, `Login`, `Password`) VALUES
+(1, 'Иван', 'Иванов', 'User1', '$2y$13$4IiSDX5hZHEBJpoFk1Y.5evgCwbFx2XO6Yng3AMIjC9BgDChnGa9i'),
+(2, 'Александр', 'Александров', 'User2', '$2y$13$kuka64DCu6S/WY/9c1QKUueXZPzCdEZ/TbvHuFqO0jCivlZF5qdlG'),
+(3, 'Виталий', 'Буров', 'User3', '$2y$13$C03iybulS0KfVD4a967yUO8QJbKvd1tOyyRuRuQx7R8FqyE1EyLki'),
+(4, 'Валентина', 'Андреева', 'User4', '$2y$13$TUpOl2Kv.n6JzuZZR5ND6.TeTb5DjPDyk0B2O1GErvCiUYPjMU.dS'),
+(5, 'Акакий', 'Фролов', 'User5', '$2y$13$AwkP1KRrpNeg7rgUxZmeMOEyZtcx6gHmbM9by2W.AA.0bnFaoYhrq'),
+(6, 'Ольга', 'Морковкина', 'User6', '$2y$13$bBXSO5/zyo9x06pRVW5DtOWikr5cEE3SO1ShAsgiP2oEr2EazOEVu'),
+(7, 'Анна', 'Ярко', 'User7', '$2y$13$8G.pZRTHYOHD7eXSdws0ceaPFb/ZhuXDVSralWKz3Q0xr/AKNPCu2'),
+(8, 'Пётр', 'Некрасов', 'User8', '$2y$13$zdPKhDJEotJjkP3MH137fOGwFwu5l39naiquOUTR4NOmxa/Vk2wtm'),
+(9, 'Тимофей', 'Кнутский', 'User9', '$2y$13$PRA0M.stuHQH6maIJyDphO23BC/DS2Y9jMDWWRnkB0itNQeVAfbpy'),
+(10, 'Дарья', 'Жилина', 'User10', '$2y$13$Emrrksz7/HpvaiGEQ/uDBOL9Ur.sq1M/YuayvBAfHttRofHMopdZa');
 
 --
 -- Индексы сохранённых таблиц
@@ -111,15 +87,8 @@ INSERT INTO `users` (`id`, `Name`, `SurName`, `Login`, `Password_hash`) VALUES
 -- Индексы таблицы `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `usermessage`
---
-ALTER TABLE `usermessage`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_mess` (`id_mess`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `User` (`User`);
 
 --
 -- Индексы таблицы `users`
@@ -135,30 +104,23 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id сообщения', AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT для таблицы `usermessage`
---
-ALTER TABLE `usermessage`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'для удобства редактирования', AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id сообщения', AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id пользователя', AUTO_INCREMENT=11;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id пользователя', AUTO_INCREMENT=32;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Ограничения внешнего ключа таблицы `usermessage`
+-- Ограничения внешнего ключа таблицы `messages`
 --
-ALTER TABLE `usermessage`
-  ADD CONSTRAINT `usermessage_ibfk_1` FOREIGN KEY (`id_mess`) REFERENCES `messages` (`id`),
-  ADD CONSTRAINT `usermessage_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`User`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
